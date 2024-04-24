@@ -1,0 +1,290 @@
+import turtle
+import time
+import threading
+import random
+import tkinter as tk
+
+
+
+wn = turtle.Screen()
+wn.setup(width=1.0, height=1.0)  
+wn.bgpic('vintage_background.gif')  
+wn.title("Ada Lovelace Clicker")
+
+wn.register_shape("ada_lovelace.gif")
+
+ada = turtle.Turtle()
+ada_image = "ada_lovelace.gif"
+ada.shape(ada_image)  
+ada.penup()
+ada.speed(4)
+
+clicks = 0
+starttime = time.time()
+slowDown = False
+
+double = False 
+quad =  False
+
+clicksBackgroundx = -150
+clicksBackgroundy = 297
+clicksBackgroundLength = 300
+clicksBackgroundWidth = 70
+
+backgroundPen = turtle.Turtle() 
+backgroundPen.hideturtle()
+backgroundPen.color("white")
+
+backgroundPen.penup()
+backgroundPen.begin_fill()
+backgroundPen.fillcolor('red')
+backgroundPen.goto(clicksBackgroundx, clicksBackgroundy)
+backgroundPen.goto(clicksBackgroundx + clicksBackgroundLength, clicksBackgroundy)
+backgroundPen.goto(clicksBackgroundx + clicksBackgroundLength, clicksBackgroundy + clicksBackgroundWidth)
+backgroundPen.goto(clicksBackgroundx, clicksBackgroundy + clicksBackgroundWidth)
+backgroundPen.goto(clicksBackgroundx, clicksBackgroundy)
+backgroundPen.end_fill()
+backgroundPen.goto(clicksBackgroundx + 15, clicksBackgroundy + 15)
+
+textPen = turtle.Turtle() 
+textPen.hideturtle()
+textPen.color("white")
+textPen.penup()
+textPen.goto(0, 300)
+textPen.write(f"Clicks: {clicks}", align="center", font=("Courier New", 50, "bold"))
+
+def clickedOnAda(x, y):
+    global clicks
+    global double
+    global quad
+    clicks += 1
+    if double == True and quad == True:
+        clicks += 7
+    elif double == True:
+        clicks += 1
+    elif quad == True:
+        clicks += 3 
+    textPen.clear()
+    textPen.write(f"Clicks: {clicks}", align="center", font=("Courier New", 50, "bold")) 
+    ada.shape(ada_image)
+    
+
+def autoClicker(n=1): 
+    global clicks
+    while True:
+        clicks += 1
+        time.sleep(n)
+
+ButtonPen = turtle.Turtle() 
+ButtonPen.hideturtle()
+ButtonPen.pencolor('black')
+ButtonPen.fillcolor('white')
+
+Button_x = -400
+Button_y = -300
+ButtonLength = 200
+ButtonWidth = 50
+
+Button2_x = -400
+Button2_y = -360
+Button2Length = 200
+Button2Width = 50
+
+Button3_x = -195
+Button3_y = -360
+Button3Length = 200
+Button3Width = 50
+
+ButtonR_x = 195
+ButtonR_y = -300
+ButtonRLength = 200
+ButtonRWidth = 50
+
+ButtonQuad_x = -195
+ButtonQuad_y = -300
+ButtonQuadLength = 200
+ButtonQuadWidth = 50
+
+def drawButton2x(ButtonPen, message = '2x Click Power | COST 30'): 
+    ButtonPen.penup()
+    ButtonPen.begin_fill()
+    ButtonPen.goto(Button_x, Button_y)
+    ButtonPen.goto(Button_x + ButtonLength, Button_y)
+    ButtonPen.goto(Button_x + ButtonLength, Button_y + ButtonWidth)
+    ButtonPen.goto(Button_x, Button_y + ButtonWidth)
+    ButtonPen.goto(Button_x, Button_y)
+    ButtonPen.end_fill()
+    ButtonPen.goto(Button_x + 15, Button_y + 15)
+    ButtonPen.write(message, font = ('Arial', 15, 'normal'))
+def drawButtonQuad(ButtonPen, message = '4x Click Power | COST 90'):
+    ButtonPen.penup()
+    ButtonPen.begin_fill()
+    ButtonPen.goto(ButtonQuad_x, ButtonQuad_y)
+    ButtonPen.goto(ButtonQuad_x + ButtonQuadLength, ButtonQuad_y)
+    ButtonPen.goto(ButtonQuad_x + ButtonQuadLength, ButtonQuad_y + ButtonQuadWidth)
+    ButtonPen.goto(ButtonQuad_x, ButtonQuad_y + ButtonQuadWidth)
+    ButtonPen.goto(ButtonQuad_x, ButtonQuad_y)
+    ButtonPen.end_fill()
+    ButtonPen.goto(ButtonQuad_x + 15, ButtonQuad_y + 15)
+    ButtonPen.write(message, font = ('Arial', 15, 'normal'))
+    
+def drawButtonAuto(ButtonPen, message = 'Auto Click #1 | COST 60'): 
+    ButtonPen.penup()
+    ButtonPen.begin_fill()
+    ButtonPen.goto(Button2_x, Button2_y)
+    ButtonPen.goto(Button2_x + Button2Length, Button2_y)
+    ButtonPen.goto(Button2_x + Button2Length, Button2_y + Button2Width)
+    ButtonPen.goto(Button2_x, Button2_y + Button2Width)
+    ButtonPen.goto(Button2_x, Button2_y)
+    ButtonPen.end_fill()
+    ButtonPen.goto(Button2_x + 15, Button2_y + 15)
+    ButtonPen.write(message, font = ('Arial', 15, 'normal'))
+
+def drawButtonSlower(ButtonPen, message = 'Slow Down Ada | COST 15'): 
+    ButtonPen.penup()
+    ButtonPen.begin_fill()
+    ButtonPen.goto(Button3_x, Button3_y)
+    ButtonPen.goto(Button3_x + Button3Length, Button3_y)
+    ButtonPen.goto(Button3_x + Button3Length, Button3_y + Button3Width)
+    ButtonPen.goto(Button3_x, Button3_y + Button3Width)
+    ButtonPen.goto(Button3_x, Button3_y)
+    ButtonPen.end_fill()
+    ButtonPen.goto(Button3_x + 15, Button3_y + 15)
+    ButtonPen.write(message, font = ('Arial', 15, 'normal'))
+
+def drawRosenbutton(ButtonPen, message = 'Click for a Suprise'):
+    ButtonPen.penup()
+    ButtonPen.begin_fill()
+    ButtonPen.goto(ButtonR_x, ButtonR_y)
+    ButtonPen.goto(ButtonR_x + ButtonRLength, ButtonR_y)
+    ButtonPen.goto(ButtonR_x + ButtonRLength, ButtonR_y + ButtonRWidth)
+    ButtonPen.goto(ButtonR_x, ButtonR_y + ButtonRWidth)
+    ButtonPen.goto(ButtonR_x, ButtonR_y)
+    ButtonPen.end_fill()
+    ButtonPen.goto(ButtonR_x + 15, ButtonR_y + 15)
+    ButtonPen.write(message, font = ('Arial', 15, 'normal'))
+
+def buttonClicks(x, y):
+    global double
+    global quad
+    global clicks
+    global slowDown
+    global autoClicker
+    global ada_image
+    if Button_x <= x <= Button_x + ButtonLength:
+        if Button_y <= y <= Button_y + ButtonWidth:
+            if clicks >= 30:
+                ButtonPen.fillcolor('green') 
+                ButtonPen.pencolor('black')
+                ButtonPen.penup()
+                ButtonPen.begin_fill()
+                ButtonPen.goto(Button_x, Button_y)
+                ButtonPen.goto(Button_x + ButtonLength, Button_y)
+                ButtonPen.goto(Button_x + ButtonLength, Button_y + ButtonWidth)
+                ButtonPen.goto(Button_x, Button_y + ButtonWidth)
+                ButtonPen.goto(Button_x, Button_y)
+                ButtonPen.end_fill()
+                ButtonPen.goto(Button_x + 15, Button_y + 15)
+                ButtonPen.write("PURCHASED", font=('Arial', 15, 'bold'))
+                double = True 
+                clicks = clicks - 30
+    if ButtonQuad_x <= x <= ButtonQuad_x + ButtonQuadLength:
+        if ButtonQuad_y <= y <= ButtonQuad_y + ButtonQuadWidth:
+            if clicks >= 90:
+                ButtonPen.fillcolor('green') 
+                ButtonPen.pencolor('black')
+                ButtonPen.penup()
+                ButtonPen.begin_fill()
+                ButtonPen.goto(ButtonQuad_x, ButtonQuad_y)
+                ButtonPen.goto(ButtonQuad_x + ButtonQuadLength, ButtonQuad_y)
+                ButtonPen.goto(ButtonQuad_x + ButtonQuadLength, ButtonQuad_y + ButtonQuadWidth)
+                ButtonPen.goto(ButtonQuad_x, ButtonQuad_y + ButtonQuadWidth)
+                ButtonPen.goto(ButtonQuad_x, ButtonQuad_y)
+                ButtonPen.end_fill()
+                ButtonPen.goto(ButtonQuad_x + 15, ButtonQuad_y + 15)
+                ButtonPen.write("PURCHASED", font=('Arial', 15, 'bold'))
+                quad = True
+                clicks = clicks - 90
+    if Button2_x <= x <= Button2_x + Button2Length: 
+        if Button2_y <= y <= Button2_y + Button2Width:
+            if clicks >= 60:
+                ButtonPen.fillcolor('green')
+                ButtonPen.pencolor('black')
+                ButtonPen.penup()
+                ButtonPen.begin_fill()
+                ButtonPen.goto(Button2_x, Button2_y)
+                ButtonPen.goto(Button2_x + Button2Length, Button2_y)
+                ButtonPen.goto(Button2_x + Button2Length, Button2_y + Button2Width)
+                ButtonPen.goto(Button2_x, Button2_y + Button2Width)
+                ButtonPen.goto(Button2_x, Button2_y)
+                ButtonPen.end_fill()
+                ButtonPen.goto(Button2_x + 15, Button2_y + 15)
+                ButtonPen.write("PURCHASED", font=('Arial', 15, 'bold'))
+                clicks = clicks - 60
+                thread = threading.Thread(target=autoClicker,) 
+                thread.start()
+    if Button3_x <= x <= Button3_x + Button3Length:
+        if Button3_y <= y <= Button3_y + Button3Width:
+            if clicks >= 15:
+                ButtonPen.fillcolor('green')
+                ButtonPen.pencolor('black')
+                ButtonPen.penup()
+                ButtonPen.begin_fill()
+                ButtonPen.goto(Button3_x, Button3_y)
+                ButtonPen.goto(Button3_x + Button3Length, Button3_y)
+                ButtonPen.goto(Button3_x + Button3Length, Button3_y + Button3Width)
+                ButtonPen.goto(Button3_x, Button3_y + Button3Width)
+                ButtonPen.goto(Button3_x, Button3_y)
+                ButtonPen.end_fill()
+                ButtonPen.goto(Button3_x + 15, Button3_y + 15)
+                ButtonPen.write("PURCHASED", font=('Arial', 15, 'bold'))
+                clicks = clicks - 15
+                slowDown = True
+
+
+wn.onclick(buttonClicks)
+
+drawButton2x(ButtonPen)
+drawButtonQuad(ButtonPen)
+drawButtonAuto(ButtonPen)
+drawButtonSlower(ButtonPen)
+
+
+ada.onclick(clickedOnAda)
+
+ada.penup() 
+i = 0
+distance =(random.randint(25,300))
+turndegree= random.randint(30,360)
+leftorright= ["R","L"]
+choicejawn = random.choice(leftorright)
+while i < 5000:
+    distance
+    turndegree
+    choicejawn
+    if (ada.xcor() > -450 and ada.xcor() <450) and (ada.ycor() >-350 and ada.ycor() <350):   
+        ada.forward(distance)
+        
+        if choicejawn == "R":
+            ada.right(turndegree)
+        if choicejawn == "L":
+            ada.left(turndegree)
+        if slowDown == False:
+            ada.speed(4)
+        elif slowDown == True:
+            ada.speed(1)
+    else:
+        ada.right(180)
+        ada.forward(distance)
+        if slowDown == False:
+            ada.speed(4)
+        elif slowDown == True:
+            ada.speed(1)
+        i += 1
+
+
+
+
+
+wn.mainloop()
+turtle.mainloop()
